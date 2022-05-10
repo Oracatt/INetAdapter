@@ -11,23 +11,22 @@
 // 
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-//
-import inet.common.INETDefs;
-import inet.common.packet.chunk.Chunk;
+// 
+package ops;
 
-class MyPacketType extends inet::FieldsChunk
+simple INetAdapter like IOPSLinkLayer
 {
-	int16_t type;
-}
+    parameters:
+        int nodeIndex;
+        string ownMACAddress;
+        int pingInterval @unit(ms) = default(1000ms);
+        int pingIntervalFloat @unit(ms) = default(100ms);
 
-class MyPingPacket extends inet::FieldsChunk
-{
- 	int senderID;
-}
+        @display("i=device/card");
 
-class MyPacket extends inet::FieldsChunk
-{
- 	int senderID;
- 	int16_t dataLen;
-    int data[];
+    gates:
+        input upperLayerIn;
+        output upperLayerOut;
+        input lowerLayerIn;
+        output lowerLayerOut;
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
   <inputs>
-    <inputs name="/Test/results/General-*.vec"/>
-    <inputs name="/Test/results/General-*.sca"/>
+    <inputs name="/OPS/simulations/results/omnetpp-ops.ini-Messenger-Epidemic-Specific-Dest-SWIM-*.vec"/>
+    <inputs name="/OPS/simulations/results/omnetpp-ops.ini-Messenger-Epidemic-Specific-Dest-SWIM-*.sca"/>
   </inputs>
   <datasets/>
   <chartSheets/>

@@ -99,7 +99,7 @@ network OPSNetwork
         @display("bgb=190,171");
 
     submodules:
-        
+
         radioMedium: Ieee80211ScalarRadioMedium {
             parameters:
                 @display("p=50,50");//<x,y>
@@ -108,7 +108,7 @@ network OPSNetwork
         // nodes of the network
         host[numNodes]: KOPSNode {
             nodeID = index;
-            @display("p=85.36,80.833336");
+            @display("p=80.833336,84.066666");
         }
 
         // notification generator to use when UBM is enabled

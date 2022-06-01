@@ -19,9 +19,9 @@ module KOPSNode
 {
     parameters:
         @networkNode();
-        
+
         *.interfaceTableModule = default(absPath(".interfaceTable"));
-        
+
         wlan.radio.antenna.mobilityModule = default("^.^.^.mobility");
 
         // unique node identifier
@@ -141,10 +141,10 @@ module KOPSNode
 
     submodules:
 
-		interfaceTable: InterfaceTable {
+        interfaceTable: InterfaceTable {
             parameters:
                 @display("p=125,240;is=s");
-        }    
+        }
 
         // user behavior model
         ubm: <userBahaviourModel> like IUBM if ubmEnabled {
@@ -170,11 +170,11 @@ module KOPSNode
         }
 
         // wifi adhoc interface
-        link: INetAdapter  {
+        link: INetAdapter {
             nodeIndex = nodeID;
-            @display("p=120,269;t=Link\nLayer,r");
+            @display("p=119.166664,281.41666;t=Link\nLayer,r");
         }
-        
+
         wlan: Ieee80211Interface {
             parameters:
                 @display("p=226,81;q=queue");
@@ -210,7 +210,7 @@ module KOPSNode
         // only considered receipts as @directIn is specified and nodes send
         // directly to other nodes
         link.lowerLayerIn <-- wlan.upperLayerOut;
-		link.lowerLayerOut --> wlan.upperLayerIn;
-		
-		wlan.radioIn <-- radioIn;
+        link.lowerLayerOut --> wlan.upperLayerIn;
+
+        wlan.radioIn <-- radioIn;
 }

@@ -116,6 +116,8 @@ void INetAdapter::socketDataArrived(Ieee8022LlcSocket *socket, Packet *packet)
             string dst=data->getDestinationAddress();
             if(dst==ownMACAddress||dst=="FF:FF:FF:FF:FF:FF")
                 send(data, "upperLayerOut");
+            else
+                delete data;
             break;
         }
         case 1:
@@ -125,6 +127,8 @@ void INetAdapter::socketDataArrived(Ieee8022LlcSocket *socket, Packet *packet)
             string dst=data->getDestinationAddress();
             if(dst==ownMACAddress||dst=="FF:FF:FF:FF:FF:FF")
                 send(data, "upperLayerOut");
+            else
+                delete data;
             break;
         }
         case 2:
@@ -134,6 +138,8 @@ void INetAdapter::socketDataArrived(Ieee8022LlcSocket *socket, Packet *packet)
             string dst=data->getDestinationAddress();
             if(dst==ownMACAddress||dst=="FF:FF:FF:FF:FF:FF")
                 send(data, "upperLayerOut");
+            else
+                delete data;
             break;
         }
         case 3:
@@ -143,6 +149,8 @@ void INetAdapter::socketDataArrived(Ieee8022LlcSocket *socket, Packet *packet)
             string dst=data->getDestinationAddress();
             if(dst==ownMACAddress||dst=="FF:FF:FF:FF:FF:FF")
                 send(data, "upperLayerOut");
+            else
+                delete data;
             break;
         }
         case 4:
@@ -152,6 +160,8 @@ void INetAdapter::socketDataArrived(Ieee8022LlcSocket *socket, Packet *packet)
             string dst=data->getDestinationAddress();
             if(dst==ownMACAddress||dst=="FF:FF:FF:FF:FF:FF")
                 send(data, "upperLayerOut");
+            else
+                delete data;
             break;
         }
         case 5:
@@ -161,6 +171,8 @@ void INetAdapter::socketDataArrived(Ieee8022LlcSocket *socket, Packet *packet)
             string dst=data->getDestinationAddress();
             if(dst==ownMACAddress||dst=="FF:FF:FF:FF:FF:FF")
                 send(data, "upperLayerOut");
+            else
+                delete data;
             break;
         }
         case 6:
@@ -170,6 +182,8 @@ void INetAdapter::socketDataArrived(Ieee8022LlcSocket *socket, Packet *packet)
             string dst=data->getDestinationAddress();
             if(dst==ownMACAddress||dst=="FF:FF:FF:FF:FF:FF")
                 send(data, "upperLayerOut");
+            else
+                delete data;
             break;
         }
         }
@@ -193,6 +207,17 @@ void INetAdapter::finish()
 
 void INetAdapter::sendUpdatePacket()
 {
+    KNeighbourListMsg* neighborMsg=new KNeighbourListMsg();
+    neighborMsg->setNeighbourNameListArraySize(neighborList.size());
+    neighborMsg->setNeighbourNameCount(neighborList.size());
+    int index=0;
+    for(auto it=neighborList.begin();it!=neighborList.end();it++)
+    {
+        neighborMsg->setNeighbourNameList(index, it->macAddress.c_str());
+        index++;
+    }
+    send(neighborMsg, "upperLayerOut");
+
     Packet *dataPacket = new Packet("ping", IEEE802CTRL_DATA);
     Ptr<INATypeMsg> typeMsg=makeShared<INATypeMsg>();
     typeMsg->setChunkLength(B(8));
@@ -205,7 +230,7 @@ void INetAdapter::sendUpdatePacket()
     dataMsg->setNeighborIDArraySize(neighborList.size());
     dataMsg->setAckArraySize(neighborList.size());
     dataMsg->setMacAddress(ownMACAddress.c_str());
-    int index=0;
+    index=0;
     for(auto it=neighborList.begin();it!=neighborList.end();it++)
     {
         dataMsg->setAck(index, it->ack);
@@ -223,6 +248,7 @@ void INetAdapter::sendUpdatePacket()
 void INetAdapter::sendUserPacket(cMessage* msg)
 {
     string dst=getDestinationAddress(msg);
+    EV_INFO<<neighborList.size();
     if(dst=="FF:FF:FF:FF:FF:FF"||findNeighbor(dst))
     {
         Packet *dataPacket = new Packet("ping", IEEE802CTRL_DATA);
